@@ -23,6 +23,9 @@ app.use(ExpressAPILogMiddleware(logger, { request: true }));
 const reviewRoute = require('./routes/reviews');
 app.use('/reviews', reviewRoute);
 
+const commentRoute = require('./routes/comments');
+app.use('/comments', commentRoute);
+
 
 //Routes
 app.get('/', (req, res) => {

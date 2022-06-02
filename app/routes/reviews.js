@@ -9,8 +9,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var jsonParser = bodyParser.json();
 
-router.get('/all', (req, res) => {
-    res.send('get all reviews');
+//Get all reviews
+router.get('/all', async (req, res) => {
+    try{
+        const reviews = await Review.find();
+        res.json(reviews);
+    } catch(err) {
+        res.json({message: err})
+    }
 });
 
 //Get review by its ID
@@ -63,5 +69,30 @@ router.post('/', jsonParser, (req, res) => {
         })
 })
 
+//Delete a review
+router.delete('/:id', async (req, res) => {
+    try {
+        const removedReview = await Review.remove({_id: req.params.id});
+        res.json(removedReview)
+    } catch(err) {
+        res.json({message: err})
+    }
+})
 
+// Update a review
+router.patch('/:id', async (req, res) => {
+    try {
+        const updatedReview = await Review.updateOne(
+            {_id: req.params.id},
+            {$set: {
+                title: req.body.title,
+                description: req.body.description,
+                rating: req.body.rating,
+            }}
+        );
+        res.json(updatedReview)
+    } catch(err) {
+        res.json({message: err})
+    }
+})
 module.exports = router;
