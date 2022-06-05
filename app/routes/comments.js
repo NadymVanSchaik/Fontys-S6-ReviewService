@@ -91,7 +91,7 @@ router.patch('/:id', async (req, res) => {
 //Get all sub-comments
 router.get('/:id', async (req, res) => {
     try{
-        const comment = await Comment.find({comment: req.params.id}).exec();
+        const comment = await Comment.find({comment_id: req.params.id}).exec();
         res.json(comment)
     } catch(err){
         res.json({message: err});
