@@ -10,11 +10,11 @@ const CommentSchema = mongoose.Schema({
         required: true
     },
     review_id: {
-        type: Number,
+        type: String,
         required: false
     },
     comment_id: {
-        type: Number,
+        type: String,
         required: false
     },
     like_count: {

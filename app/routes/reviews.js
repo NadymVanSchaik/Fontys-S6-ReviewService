@@ -20,7 +20,7 @@ router.get('/all', async (req, res) => {
 });
 
 //Get review by its ID
-router.get('/:id', async (req, res, next) => {
+router.get('/getById/:id', async (req, res, next) => {
     try{
         const review = await Review.findById(req.params.id).exec();
         res.json(review)
@@ -40,7 +40,7 @@ router.get('/user/:id', async (req, res, next) => {
 });
 
 //Get reviews from game
-router.get('/user/:id', async (req, res, next) => {
+router.get('/game/:id', async (req, res, next) => {
     try{
         const reviewsFromGame = await Review.find({game_id: req.params.id}).exec();
         res.json(reviewsFromGame)
@@ -60,7 +60,7 @@ router.post('/', jsonParser, (req, res) => {
         user_id: req.body.user_id,
         game_id: req.body.game_id
     });
-    game.save()
+    review.save()
         .then(data => {
             res.json(data)
         })
@@ -80,7 +80,7 @@ router.delete('/:id', async (req, res) => {
 })
 
 // Update a review
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', jsonParser, async (req, res) => {
     try {
         const updatedReview = await Review.updateOne(
             {_id: req.params.id},
@@ -92,7 +92,9 @@ router.patch('/:id', async (req, res) => {
         );
         res.json(updatedReview)
     } catch(err) {
+        console.log(err)
         res.json({message: err})
     }
 })
+
 module.exports = router;

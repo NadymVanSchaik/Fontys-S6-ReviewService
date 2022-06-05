@@ -20,7 +20,7 @@ router.get('/all', async (req, res) => {
 });
 
 //Get comment by its ID
-router.get('/:id', async (req, res, next) => {
+router.get('/getById/:id', async (req, res, next) => {
     try{
         const comment = await Comment.findById(req.params.id).exec();
         res.json(comment)
@@ -40,7 +40,7 @@ router.delete('/:id', async (req, res) => {
 })
 
 // Update a comments
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', jsonParser, async (req, res) => {
     try {
         const updatedComment = await Comment.updateOne(
             {_id: req.params.id},
@@ -64,7 +64,7 @@ router.post('/', jsonParser, (req, res) => {
         review_id: req.body.review_id,
         comment_id: req.body.comment_id
     });
-    game.save()
+    comment.save()
         .then(data => {
             res.json(data)
         })
@@ -74,7 +74,7 @@ router.post('/', jsonParser, (req, res) => {
 })
 
 //Like a comment
-router.patch('/:id', async (req, res) => {
+router.patch('/like/:id', jsonParser, async (req, res) => {
     try {
         const updatedComment = await Comment.updateOne(
             {_id: req.params.id},
@@ -89,11 +89,14 @@ router.patch('/:id', async (req, res) => {
 })
 
 //Get all sub-comments
-router.get('/:id', async (req, res) => {
+router.get('/subComments/:id', async (req, res) => {
     try{
         const comment = await Comment.find({comment_id: req.params.id}).exec();
         res.json(comment)
     } catch(err){
+        console.log(err)
         res.json({message: err});
     }
 });
+
+module.exports = router;

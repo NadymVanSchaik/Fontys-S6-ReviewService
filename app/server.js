@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
 const mongoose = require('mongoose')
@@ -34,4 +33,11 @@ app.get('/', (req, res) => {
 
 
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECTION, () => console.log('connected to DB'))
+//Connect to DB
+mongoose.connect(process.env.DB_CONNECTION) 
+.then(() =>{
+    console.log("connected to DB");
+})
+.catch(err => {
+    console.log(err)
+})
