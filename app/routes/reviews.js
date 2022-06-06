@@ -3,6 +3,8 @@ const router = express.Router();
 const Review = require('../models/Review')
 const app = express();
 const bodyParser = require('body-parser');
+const createReview = require('../functions/createReview');
+
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -51,22 +53,13 @@ router.get('/game/:id', async (req, res, next) => {
   
 //Post a review
 router.post('/', jsonParser, (req, res) => {
-    console.log(req.body);
-    const review = new Review({
-        title: req.body.title,
-        description: req.body.description,
-        rating: req.body.rating,
-        date_added: Date.now(),
-        user_id: req.body.user_id,
-        game_id: req.body.game_id
-    });
-    review.save()
-        .then(data => {
-            res.json(data)
-        })
-        .catch(err => {
-            res.json({message: err})
-        })
+    createReview(req.body).save()
+    .then(data => {
+        res.json(data)
+    })
+    .catch(err => {
+        res.json({message: err})
+    })
 })
 
 //Delete a review

@@ -6,7 +6,7 @@ const CommentSchema = mongoose.Schema({
         required: true
     },
     user_id: {
-        type: Number,
+        type: String,
         required: true
     },
     review_id: {

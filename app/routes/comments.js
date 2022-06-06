@@ -3,6 +3,8 @@ const router = express.Router();
 const Comment = require('../models/Comment')
 const app = express();
 const bodyParser = require('body-parser');
+const createComment = require('../functions/createComment');
+
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -56,15 +58,7 @@ router.patch('/:id', jsonParser, async (req, res) => {
 
 //Post a comment
 router.post('/', jsonParser, (req, res) => {
-    console.log(req.body);
-    const comment = new Comment({
-        description: req.body.description,
-        date_added: Date.now(),
-        user_id: req.body.user_id,
-        review_id: req.body.review_id,
-        comment_id: req.body.comment_id
-    });
-    comment.save()
+    createComment(req.body).save()
         .then(data => {
             res.json(data)
         })
