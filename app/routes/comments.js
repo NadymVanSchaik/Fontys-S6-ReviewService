@@ -11,13 +11,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var jsonParser = bodyParser.json();
 
-//Get all comments
+//Get all comments 
 router.get('/all', async (req, res) => {
     try{
         const comments = await Comment.find();
         res.json(comments);
     } catch(err) {
         res.json({message: err})
+    }
+});
+
+//Get comments from review
+router.get('/review/:id', async (req, res) => {
+    try{
+        const commentsFromReview = await Comment.find({"review_id": req.params.id}).exec();
+        res.json(commentsFromReview)
+    } catch(err){
+        res.json({message: err});
     }
 });
 
